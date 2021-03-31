@@ -1,0 +1,279 @@
+import random
+
+def check_game(choice,chk):
+    flag=False
+    bag=False
+    finish=False
+    for i in range(len(chk)):
+        count_x=0
+        count_o=0
+        for j in range(len(chk[0])):
+            if chk[i][j]=='X':
+                count_x+=1
+            elif chk[i][j]=='O':
+                count_o+=1
+        if count_x==3:
+            if choice=='X':
+                flag=True
+            else:
+                bag=True
+        if count_o==3:
+            if choice=='O':
+               
+                flag=True
+            else:
+                bag=True
+               
+    if flag==bag==True:
+        print('The game is a tie, hence both are awarded 5 points!')
+        player1.remove(10)
+        player1.append(5)
+        player2.append(5)
+        finish=True
+       
+    elif flag:
+        print('Congratulations Player 1 has won! ')
+        player1.append(10)
+        finish=True
+       
+    elif bag:
+        print('Congratulations Player 2 has won! ')
+        player2.append(10)
+        finish=True
+       
+   
+    flag2=False
+    bag2=False
+    for i in range(len(chk)):
+        count_x=0
+        count_o=0
+        for j in range(len(chk[0])):
+            if chk[j][i]=='X':
+                count_x+=1
+            elif chk[j][i]=='O':
+                count_o+=1
+        if count_x==3:
+            if choice=='X':
+               
+                flag2=True
+            else:
+               
+                bag2=True
+        if count_o==3:
+            if choice=='O':
+               
+                flag2=True
+            else:
+                bag2=True
+               
+    if flag2==bag2==True:
+        print('The game is a tie, hence both are awarded 5 points!')
+        player1.remove(10)
+        player1.append(5)
+        player2.append(5)
+        finish=True
+       
+    elif flag2:
+        print('Congratulations Player 1 has won! ')
+        player1.append(10)
+        finish=True
+    elif bag2:
+        print('Congratulations Player 2 has won! ')
+        player2.append(10)
+        finish=True
+       
+    for i in range(3):
+        if i==0:
+            zero=chk[i][i]
+        elif i==1:
+            first=chk[i][i]
+        else:
+            second=chk[i][i]
+    if choice=='X' and zero==first==second=='X':
+        print('Congratulations Player 1 has won! ')
+        finish=True
+        player1.append(10)
+    elif choice=='O' and zero==first==second=='O':
+        print('Congratulations Player 1 has won! ')
+        finish=True
+        player1.append(10)
+    elif choice!='X' and zero==first==second=='X':
+        print('Congratulations Player 2 has won!')
+        finish=True
+        player2.append(10)
+    elif choice!='O' and zero==first==second=='O':
+        print('Congratulations Player 2 has won!')
+        finish=True
+        player2.append(10)
+       
+    if choice=='X' and chk[0][2]==chk[1][1]==chk[2][0]=='X':
+        print('Congratulations Player 1 has won! ')
+        finish=True
+        player1.append(10)
+    elif choice=='O' and chk[0][2]==chk[1][1]==chk[2][0]=='O':
+        print('Congratulations Player 1 has won! ')
+        player1.append(10)
+        finish=True
+    elif choice!='X' and chk[0][2]==chk[1][1]==chk[2][0]=='X':
+        print('Congratulations Player 2 has won!')
+        finish=True
+        player2.append(10)
+    elif choice!='O' and chk[0][2]==chk[1][1]==chk[2][0]=='O':
+        print('Congratulations Player 2 has won!')
+        finish=True
+        player2.append(10)
+    return player1,player2,finish
+
+def print_game(a):
+
+    for i in range(len(a)):
+        for j in range(len(a[0])):
+            if j==(len(a[0])-1):
+                print(a[i][j],end=' ')
+            else:
+                print(a[i][j]+' |',end=' ')
+        print()
+        if i==(len(a)-1):
+            pass
+        else:
+            print('_ '*6)
+           
+def insert_game(z,x,y):
+    a=z
+    b=x
+    location=list(y)
+   
+    if 'X' in final[int(location[0])][int(location[1])]:
+        if z==2 or z==11:
+            print('The location has already been filled. Choose another.')
+            loc=input('Enter the location of choice as per a 3x3 matrix')
+            new=insert_game(a,b,loc)
+            return new
+        
+        elif z==12:
+            sel=['00','01','02','10','11','12','20','21','22','00','01','02','10','11','12','20','21','22','00','01','02','10','11','12','20','21','22']
+            loc=random.choice(sel)
+            new=insert_game(a,b,loc)
+            return new
+       
+    elif 'O' in final[int(location[0])][int(location[1])]:
+        if z==2 or z==11:
+            print('The location has already been filled. Choose another.')
+            loc=input('Enter the location of choice as per a 3x3 matrix')
+            new=insert_game(a,b,loc)
+            return new
+        
+        elif z==12:
+            sel=['00','01','02','10','11','12','20','21','22','00','01','02','10','11','12','20','21','22','00','01','02','10','11','12','20','21','22']
+            loc=random.choice(sel)
+            new=insert_game(a,b,loc)
+            return new
+       
+    else:
+        final[int(location[0])][int(location[1])]=x
+        print_game(final)
+        return final
+       
+
+
+def create_game(m):
+    if m==2:
+        values=['X','O']
+        st=''
+        final=[['0' for i in range(3)] for j in range(3)]
+        val=input('First player - Enter your choice, X or O? ')
+        values.remove(val)
+        for i in values:
+            st+=i
+        for i in range(9):
+            if i%2==0:
+                loc=input('Enter the location of choice as per a 3x3 matrix ')
+                mat=insert_game(m,val,loc)
+                p1,p2,status=check_game(val,mat)
+                print('The score of player1 is %s and player2 is %s.'%(p1,p2))
+                if status:
+                    break
+            else:
+       
+                loc=input('Enter the location of choice as per a 3x3 matrix ')
+                print(st)
+                mat1=insert_game(m,st,loc)
+                p1,p2,status=check_game(val,mat1)
+           
+                print('The score of player1 is %s and player2 is %s.'%(p1,p2))
+                if status:
+                    break
+    elif m==1:
+        values=['X','O']
+        st=''
+        final=[['0' for i in range(3)] for j in range(3)]
+        val=input('Live Player - Enter your choice, X or O? ')
+        values.remove(val)
+        for i in values:
+            st+=i
+        for i in range(9):
+            if i%2==0:
+                m=11
+                loc=input('Enter the location of choice as per a 3x3 matrix ')
+                mat=insert_game(m,val,loc)
+                p1,p2,status=check_game(val,mat)
+                print('The score of player1 is %s and player2 is %s.'%(p1,p2))
+                if status:
+                    break
+            else:
+                m=12
+                sel=['00','01','02','10','11','12','20','21','22','00','01','02','10','11','12','20','21','22','00','01','02','10','11','12','20','21','22']
+                
+                loc=random.choice(sel)
+                print(loc)
+                print(st)
+                mat1=insert_game(m,st,loc)
+                p1,p2,status=check_game(val,mat1)
+           
+                print('The score of player1 is %s and player2 is %s.'%(p1,p2))
+                if status:
+                    break
+   
+
+print('Welcome to the game of tic-tac toe')
+mode=int(input('Enter the mode of play. For two player enter 2 and for single player enter 1.'))
+values=['X','O']
+st=''
+final=[['0' for i in range(3)] for j in range(3)]
+player1=[]
+player2=[]
+if mode==2:
+    for i in range(1,6):
+        if i%2==0:
+            print('_ '*6)
+        else:
+            print('   |'*2)
+    print()  
+    create_game(mode)
+
+elif mode==1:
+    for i in range(1,6):
+        if i%2==0:
+            print('_ '*6)
+        else:
+            print('   |'*2)
+    print()
+    
+    create_game(mode)
+    
+   
+def new_game(v):
+   
+    new=input('Do you want to play another game? (y or exit) ')
+    if new=='y':
+        global final
+        final=[['0' for i in range(3)] for j in range(3)]
+        create_game(v)
+        new_game(v)
+    elif new=='exit':
+        pass
+    else:
+        print('Give a valid input ')
+        new_game(v)
+        
+new_game(mode)
